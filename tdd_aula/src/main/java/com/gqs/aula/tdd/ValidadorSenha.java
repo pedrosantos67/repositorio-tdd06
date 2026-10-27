@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValidadorSenha {
 
-    public List<String> validar(String senha) {
+    public ResultadoValidacao validar(String senha) {
         List<String> erros = new ArrayList<>();
 
         if (senha.length() < 8) {
@@ -13,10 +13,21 @@ public class ValidadorSenha {
         }
 
         int quantidadeDigitos = 0;
+        boolean temLetraMaiuscula = false;
+        boolean temCaractereEspecial = false;
 
         for (char caractere : senha.toCharArray()) {
+
             if (Character.isDigit(caractere)) {
                 quantidadeDigitos++;
+            }
+
+            if (Character.isUpperCase(caractere)) {
+                temLetraMaiuscula = true;
+            }
+
+            if (!Character.isLetterOrDigit(caractere)) {
+                temCaractereEspecial = true;
             }
         }
 
@@ -24,30 +35,16 @@ public class ValidadorSenha {
             erros.add("A senha deve conter pelo menos 2 dígitos");
         }
 
-        boolean temLetraMaiuscula = false;
-
-        for (char caractere : senha.toCharArray()) {
-            if (Character.isUpperCase(caractere)) {
-                temLetraMaiuscula = true;
-            }
-        }
-
         if (!temLetraMaiuscula) {
             erros.add("A senha deve conter pelo menos uma letra maiuscula");
-        }
-
-        boolean temCaractereEspecial = false;
-
-        for (char caractere : senha.toCharArray()) {
-            if (!Character.isLetterOrDigit(caractere)) {
-                temCaractereEspecial = true;
-            }
         }
 
         if (!temCaractereEspecial) {
             erros.add("A senha deve conter pelo menos um caractere especial");
         }
 
-        return erros;
+        boolean valido = erros.isEmpty();
+
+        return new ResultadoValidacao(valido, erros);
     }
 }
