@@ -36,6 +36,18 @@ public class ValidadorSenha {
             erros.add("A senha deve conter pelo menos uma letra maiuscula");
         }
 
+        boolean temCaractereEspecial = false;
+
+        for (char caractere : senha.toCharArray()) {
+            if (!Character.isLetterOrDigit(caractere)) {
+                temCaractereEspecial = true;
+            }
+        }
+
+        if (!temCaractereEspecial) {
+            erros.add("A senha deve conter pelo menos um caractere especial");
+        }
+
         return erros;
     }
 }
